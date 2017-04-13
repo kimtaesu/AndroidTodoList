@@ -1,0 +1,13 @@
+android {
+    productFlavors {
+        local {
+            Properties
+            buildConfigField "String", "host", '"192.168.25.33"'
+            buildConfigField "int", "port", '8010'
+        }
+//        server {
+//            buildConfigField "String", "host", '"192.168.25.33"'
+//            buildConfigField "int", "host", '8010'
+//        }
+    }
+}
