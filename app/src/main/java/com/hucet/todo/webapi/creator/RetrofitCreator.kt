@@ -1,11 +1,10 @@
 package com.hucet.web.creator
 
 import com.hucet.todo.BuildConfig
-import com.hucet.todo.extension.onDefaultThread
-import com.hucet.web.service.TodoItem
+import com.hucet.todo.webapi.RequestOptions
+import com.hucet.todo.webapi.TodoCreateRequestParam
 import com.hucet.web.service.TodoService
-import io.reactivex.Observable
-import retrofit2.Response
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,19 +17,25 @@ object RetrofitCreator {
         CREATE_TODO
     }
 
-    fun getTodoApi(api: API): () -> Int = when (api) {
+
+    fun getTodoApi1(api: API, requestOptions: RequestOptions? = null) = when (api) {
         API.CREATE_TODO -> {
-            val todoService = createRetrofit().create(TodoService::class.java)
-            todoService.createTodo(null).onDefaultThread()
+            val todoService = createRetrofit().create(TodoService::class.java);
+            requestOptions?.body ?: throw IllegalArgumentException("Invalid a request param")
+            todoService.createTodo(requestOptions.body as TodoCreateRequestParam)
+                    .subscribeOn(Schedulers.newThread())
         }
-        else -> throw IllegalArgumentException("Invalid color param value")
-
+        else -> throw IllegalArgumentException("Invalid a todo api")
     }
 
-
-    fun <T>createTodo(todoItem: TodoItem?): () -> Observable<Response<T>> {
-
-    }
+//    fun <R : AResponse> getTodoApi(api: API, requestOptions: RequestOptions? = null): Observable<Response<R>> = when (api) {
+//        API.CREATE_TODO -> {
+//            val todoService = createRetrofit().create(TodoService::class.java);
+//            requestOptions?.body ?: throw IllegalArgumentException("Invalid a request param")
+//            todoService.createTodo(requestOptions.body)
+//        }
+//        else -> throw IllegalArgumentException("Invalid a todo api")
+//    }
 
     private fun createRetrofit(): Retrofit {
         return Retrofit.Builder()

@@ -6,16 +6,11 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.View
 import android.view.Menu
 import android.view.MenuItem
-
+import com.hucet.todo.webapi.*
 import com.hucet.web.creator.RetrofitCreator
-import com.hucet.web.service.TodoItem
-import io.reactivex.functions.Consumer
-
-import kotlin.KotlinNullPointerException
-import retrofit2.Retrofit
+import com.hucet.web.creator.RetrofitCreator.API.CREATE_TODO
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,14 +21,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            RetrofitCreator
-                    .createTodo(TodoItem("test", "test"))
-                    .subscribe { longResponse ->
-                        {
-                            Log.d("!!!", "longResponse ${longResponse}");
-                        }
-
-                    }
+            requestTodoCreate();
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
@@ -57,5 +45,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun requestTodoCreate() {
+        RetrofitCreator.getTodoApi1(CREATE_TODO, RequestOptions(
+                body = TodoCreateRequestParam("test", "test")
+        ))
+                .subscribe({
+                    Log.e("!!!!!!!!!!!!!!", it.toString())
+                }, {
+
+                    Log.e("!!!!!!!!!!!!!!", it.message)
+                })
     }
 }
