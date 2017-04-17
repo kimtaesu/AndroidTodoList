@@ -1,0 +1,57 @@
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = '25.0.1'
+    androidMinSdkVersion = 15
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+
+    //Libraries
+    recyclerViewVersion = '21.0.3'
+    rxJavaVersion = '2.0.2'
+    rxAndroidVersion = '2.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.3'
+    okHttpVersion = '3.6.0'
+    androidAnnotationsVersion = '21.0.3'
+    arrowVersion = '1.0.0'
+
+    daggerVersion = '2.9'
+
+    retrofitVersion = '2.2.0'
+
+    androidSupportVersion = '25.0.1'
+    constraintVersion = "1.0.2"
+
+    androidSupport = [
+            appcompatv7: "com.android.support:appcompat-v7:${androidSupportVersion}",
+            design     : "com.android.support:design:${androidSupportVersion}",
+            constraint : "com.android.support.constraint:constraint-layout:${constraintVersion}"
+    ]
+
+
+    dataDependencies = [
+            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            gson              : "com.google.code.gson:gson:${gsonVersion}",
+            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid         : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
+            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            converter_gson    : "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+
+    ]
+
+    utilsDependencies = [
+            log_timber: "com.jakewharton.timber:timber:4.5.1"
+    ]
+}

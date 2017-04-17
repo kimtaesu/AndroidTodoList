@@ -3,14 +3,11 @@ package com.hucet.todo
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.hucet.todo.webapi.*
-import com.hucet.web.creator.RetrofitCreator
-import com.hucet.web.creator.RetrofitCreator.API.CREATE_TODO
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,9 +18,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            requestTodoCreate();
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+        }
+
+        if (savedInstanceState == null) {
+            changeFragment(ContentFragment())
         }
     }
 
@@ -47,15 +47,24 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun requestTodoCreate() {
-        RetrofitCreator.getTodoApi1(CREATE_TODO, RequestOptions(
-                body = TodoCreateRequestParam("test", "test")
-        ))
-                .subscribe({
-                    Log.e("!!!!!!!!!!!!!!", it.toString())
-                }, {
+    fun changeFragment(f: Fragment, cleanStack: Boolean = false) {
+        val ft = supportFragmentManager.beginTransaction();
+//        ft.setCustomAnimations(
+//                R.anim.abc_fade_in, R.anim.abc_fade_out, R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+        ft.replace(R.id.act_content, f);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
-                    Log.e("!!!!!!!!!!!!!!", it.message)
-                })
+    /**
+     * Finish activity when reaching the last fragment.
+     */
+    override fun onBackPressed() {
+        val fragmentManager = supportFragmentManager;
+        if (fragmentManager.backStackEntryCount > 1) {
+            fragmentManager.popBackStack();
+        } else {
+            finish();
+        }
     }
 }

@@ -2,8 +2,7 @@ android {
     productFlavors {
         local {
             Properties
-            buildConfigField "String", "host", '"192.168.0.20"'
-            buildConfigField "int", "port", '8010'
+            buildConfigField "String", "url", '"https://www.reddit.com/"'
         }
 //        server {
 //            buildConfigField "String", "host", '"192.168.25.33"'
