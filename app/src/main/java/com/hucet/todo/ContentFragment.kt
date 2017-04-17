@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hucet.todo.view.NewsAdapter
+import com.hucet.todo.webapi.NewsItem
 import com.hucet.todo.webapi.NewsParent
 import com.hucet.todo.webapi.NewsResponse
 import com.hucet.web.creator.RetrofitCreator
@@ -35,7 +36,7 @@ class ContentFragment : Fragment() {
 
             //Adapter Setting
             if (news_list.adapter == null)
-                news_list.adapter = NewsAdapter<NewsParent.NewsChildren.NewsItem>(dataset)
+                news_list.adapter = NewsAdapter<NewsItem>(dataset)
         }
         requestNews()
     }
@@ -53,6 +54,8 @@ class ContentFragment : Fragment() {
                     it.body()
                 }
 //               Aggregate Items
+                .map {
+                }
                 .subscribe(
                         {
                             Timber.e("성공  ${it}")
