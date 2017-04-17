@@ -1,16 +1,16 @@
 package com.hucet.todo.webapi
 
 data class NewsParent(
-        val after: String,
-        val before: String,
-        val children: Array<NewsChildren>
+        val after: String?,
+        val before: String?,
+        val children: List<NewsChildren>?
 ) {
     data class NewsChildren(
-            val data: NewsItem
+            val data: NewsItem?
     ) {
         data class NewsItem(
-                val thumbnail: String,
-                val author: String
+                val thumbnail: String?,
+                val author: String?
         )
     }
 }
