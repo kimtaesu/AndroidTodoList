@@ -25,6 +25,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 repositories {
@@ -48,18 +51,18 @@ dependencies {
 //    compile dangger2Dependencies.dagger
 //    provided dangger2Dependencies.javaxAnnotation
 
-
+//  RxJava
     compile dataDependencies.rxJava
     compile dataDependencies.rxAndroid
-    compile dataDependencies.okHttp
 
 //    //    Retrofit
     compile dataDependencies.retrofit
     compile dataDependencies.gson
     compile dataDependencies.converter_gson
-
+    compile dataDependencies.retrofitRxjavaAdapter
+    compile dataDependencies.okHttp
 //     Looger
-//    compile utilsDependencies.log_timber
+    compile utilsDependencies.log_timber
 
 //    Test
     testCompile 'junit:junit:4.12'

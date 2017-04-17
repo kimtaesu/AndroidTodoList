@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hucet.web.creator.RetrofitCreator
+import timber.log.Timber
 
 class ContentFragment : Fragment() {
 
@@ -28,9 +29,15 @@ class ContentFragment : Fragment() {
 
     private fun requestNews() {
         RetrofitCreator.getTodoApi(limite = 10)
-                .map { it.isSuccessful ?: throw RuntimeException("Fail to get any news [code : ${it.code()}]") }
+                .map {
+                    it.isSuccessful ?: throw RuntimeException("Fail to get any news [code : ${it.code()}]")
+                    it
+                }
+
                 .subscribe({
+                    Timber.e("성공  ${it}")
                 }, {
+                    Timber.e("실패  ${it}")
                 })
     }
 }
