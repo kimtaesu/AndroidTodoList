@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            changeFragment(ContentFragment())
+            changeFragment(NewsFragment())
         }
     }
 

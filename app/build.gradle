@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 apply from: '../productflavors.gradle'
-apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 android {
@@ -21,12 +20,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
+        exclude 'plugin.xml'
+        exclude 'plugin.properties'
+        exclude 'about_files/LICENSE-2.0.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/eclipse.inf'
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
@@ -34,12 +41,21 @@ repositories {
     mavenCentral()
 }
 
+kapt {
+    generateStubs = true
+}
+
+ext {
+    support_lib_version = '25.1.0'
+    dagger_version = '2.5'
+    retrofitVersion = '2.1.0'
+}
 
 dependencies {
 
 //    Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //     Android Support
     compile androidSupport.appcompatv7
@@ -47,32 +63,42 @@ dependencies {
     compile androidSupport.constraint
 
 //    Dagger for DI
-//    apt dangger2Dependencies.daggerCompiler
-//    compile dangger2Dependencies.dagger
-//    provided dangger2Dependencies.javaxAnnotation
-
+//    kapt bindDependencies.daggerCompiler
+//    compile bindDependencies.dagger
+//    provided bindDependencies.javaxAnnotation
+    // DI
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    compile "com.google.dagger:dagger:$dagger_version"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 //  RxJava
     compile dataDependencies.rxJava
     compile dataDependencies.rxAndroid
 
 //    //    Retrofit
     compile dataDependencies.retrofit
-    compile dataDependencies.gson
-    compile dataDependencies.converter_gson
+//    compile dataDependencies.gson
+//    compile dataDependencies.converter_gson
+    compile dataDependencies.converter_moshi
+
     compile dataDependencies.retrofitRxjavaAdapter
     compile dataDependencies.okHttp
 //     Looger
     compile utilsDependencies.log_timber
 
+//    butterknife
+    compile bindDependencies.butterknife
+    annotationProcessor bindDependencies.butterknifeAnnoProcessor
+//    google auto factory
+    compile bindDependencies.googleFactory
 //    Test
     testCompile 'junit:junit:4.12'
     testCompile "org.assertj:assertj-core:1.7.0"
-    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile("org.robolectric:robolectric:3.3.2", {
+        exclude group: 'com.google.guava', module: 'guava'
+    })
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 // https://mvnrepository.com/artifact/com.nhaarman/mockito-kotlin
     compile group: 'com.nhaarman', name: 'mockito-kotlin', version: '1.4.0'
-
-
 }
