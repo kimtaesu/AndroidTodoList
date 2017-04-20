@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: '../productflavors.gradle'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -32,9 +31,6 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/eclipse.inf'
     }
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
 }
 
 repositories {
@@ -43,12 +39,6 @@ repositories {
 
 kapt {
     generateStubs = true
-}
-
-ext {
-    support_lib_version = '25.1.0'
-    dagger_version = '2.5'
-    retrofitVersion = '2.1.0'
 }
 
 dependencies {
@@ -63,13 +53,9 @@ dependencies {
     compile androidSupport.constraint
 
 //    Dagger for DI
-//    kapt bindDependencies.daggerCompiler
-//    compile bindDependencies.dagger
-//    provided bindDependencies.javaxAnnotation
-    // DI
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    compile "com.google.dagger:dagger:$dagger_version"
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    kapt bindDependencies.daggerCompiler
+    compile bindDependencies.dagger
+    provided bindDependencies.javaxAnnotation
 //  RxJava
     compile dataDependencies.rxJava
     compile dataDependencies.rxAndroid

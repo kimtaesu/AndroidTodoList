@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 
 
-inline fun <T> Observable<Response<T>>.onDefaultThread(): Observable<Response<T>> {
+fun <T> Observable<Response<T>>.onDefaultThread(): Observable<Response<T>> {
     return this
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.newThread())

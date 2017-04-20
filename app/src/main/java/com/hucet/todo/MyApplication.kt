@@ -1,14 +1,15 @@
 package com.hucet.todo
 
 import android.app.Application
-import com.hucet.todo.module.AppModule
-import com.hucet.todo.module.component.AppComponent
-import com.hucet.todo.module.component.DaggerAppComponent
+import com.hucet.todo.module.NetworkModule
+import com.hucet.todo.module.NewsModule
+import com.hucet.todo.module.component.DaggerNewsComponent
+import com.hucet.todo.module.component.NewsComponent
 import timber.log.Timber
 
 class MyApplication : Application() {
     companion object {
-        lateinit var appComponent: AppComponent
+        lateinit var newsComponent: NewsComponent
     }
 
 
@@ -21,8 +22,9 @@ class MyApplication : Application() {
                 }
             })
         }
-        appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
+        newsComponent = DaggerNewsComponent.builder()
+                .newsModule(NewsModule())
+                .networkModule(NetworkModule())
                 .build()
     }
 }

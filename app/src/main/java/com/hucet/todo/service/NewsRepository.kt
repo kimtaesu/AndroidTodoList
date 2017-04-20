@@ -1,4 +1,4 @@
-package com.hucet.todo.repository
+package com.hucet.todo.service
 
 import com.droidcba.kedditbysteps.api.RedditNewsResponse
 import io.reactivex.Observable

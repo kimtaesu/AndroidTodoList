@@ -3,17 +3,19 @@ package com.hucet.todo
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.hucet.todo.service.NewsManager
 import kotlinx.android.synthetic.main.fragment_content.*
 import javax.inject.Inject
 
 class NewsFragment : Fragment() {
-//    @Inject lateinit var newsManager: NewsManager
+    @Inject lateinit var newsManager: NewsManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        MyApplication.appComponent.inject(this)
+        MyApplication.newsComponent.inject(this)
         var i = 10
     }
 
@@ -36,6 +38,7 @@ class NewsFragment : Fragment() {
             //Adapter Setting
 //            if (news_list.adapter == null)
 //                news_list.adapter = NewsAdapter<NewsItem>(dataset)
+            requestNews()
         }
     }
 
@@ -44,24 +47,12 @@ class NewsFragment : Fragment() {
     }
 
     private fun requestNews() {
-//        RetrofitCreator.getTodoApi(limite = 10)
-////               200 >= response code < 400 성공 여부 검사
-//                .map {
-//                    it.isSuccessful ?: throw RuntimeException("Fail to get any news [code : ${it.code()}]")
-//                    currentRes = it.body()
-//                    it.body()
-//                }
-////               Aggregate Items
-//                .map {
-//                    dataset += it.data?.children?.toList()
-//                }
-//                .subscribe(
-//                        {
-//                            Timber.e("성공  ${it}")
-//                        },
-//                        {
-//                            Timber.e("실패  ${it}")
-//                        })
+        newsManager.getNews()
+                .subscribe({
+                    Log.i("!!!!!!!!!!", "sss")
+                }, {
+                    Log.i("!!!!!!!!!!", "aaa")
+                })
     }
 }
 

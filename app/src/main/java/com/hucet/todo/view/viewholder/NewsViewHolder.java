@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.google.auto.factory.AutoFactory;
 import com.hucet.todo.R;
+import com.hucet.todo.model.RedditNewsItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +26,9 @@ public class NewsViewHolder extends AbstractNewsViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-//    @Override
-//    public void bind(NewsModel news) {
-//        author.setText(news.author);
-//    }
+    @Override
+    public void bind(RedditNewsItem news) {
+        author.setText(news.getAuthor());
+    }
+
 }
